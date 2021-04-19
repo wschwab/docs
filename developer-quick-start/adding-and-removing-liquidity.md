@@ -18,11 +18,15 @@ Bancor is a fast-moving protocol, while at the same time remaining permissionles
 
 We recommend that you use the [Bancor SDK](../sdk/using-the-bancor-sdk.md) to query for the converter version.
 
+<!-- code will not work as is, top level await -->
+
 ```text
-const BancorSDK = require('bancor-sdk').SDK;
+const BancorSDK = require('@bancor/sdk').SDK;
 
 const settings = {
     // optional, mandatory when interacting with the ethereum mainnet
+    // example:
+    // ethereumNodeEndpoint: https://mainnet.infura.io/v3/<your_api_key>
     ethereumNodeEndpoint: '<ethereum node endpoint>',
     // optional, mandatory when interacting with the EOS mainnet
     eosNodeEndpoint: '<eos node endpoint>'
@@ -52,13 +56,16 @@ As of version 28:
 
 Each contract has a `converterType` function that will return `0` for a `LiquidTokenConverter` , `1` for a `LiquidityPoolV1Converter` , and `2` for a `LiquidityPoolV2Converter`You'll only be able to add liquidity for converter types 1 & 2.
 
-### Step \#3a: Adding Liquidity Bancor V2
+### Step \#3a: Adding Single-Side Liquidity (Bancor V2.1)
 
 {% hint style="warning" %}
 Adding liquidity to bancor V2 pools is using a new interface
 {% endhint %}
 
-The Bancor V2 `AddLiquidity` function is different from other types in that it requires you to specify only one reserve, as the process of adding liquidity is designed for single token staking. LPs can now specify the exact number of tokens of each underlying reserve they'd like to contribute. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion.
+<!-- ORIGINAL: 
+The Bancor V2 `AddLiquidity` function is different from other types in that it requires you to specify only one reserve, as the process of adding liquidity is designed for single token staking. LPs can now specify the exact number of tokens of each underlying reserve they'd like to contribute. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion. -->
+
+Bancor v2 introduced the ability to add liquidity without needing to provide both assets in a pool. In v2.1 this is done by sending one of the assets in the pool to the `LiquidityProtection` contract. This also provides insurance against impermanent loss (often called IL - [here](https://finematics.com/impermanent-loss-explained/) is a good explainer).
 
 {% hint style="info" %}
 Calculating expected pool tokens:`addLiquidity Amount * (StakedBalance / PoolTokenSupply)`
@@ -66,7 +73,8 @@ Calculating expected pool tokens:`addLiquidity Amount * (StakedBalance / PoolTok
 
 Recall that starting with version 28, LPs can directly contribute ETH using the address `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
 
-```text
+<!-- ORIGINAL:
+ ```text
 contract IConverter {
     function addLiquidity(
         IERC20Token _reserveToken, 
@@ -88,7 +96,31 @@ contract MyContract {
             _minReturn
         );
     }
+``` -->
+
+<!-- Optimally this should include how to get the poolAnchor address -->
+
+```text
+import "@bancor/contracts-solidity/solidity/contracts/converter/interfaces/IConverterAnchor.sol";
+
+contract MyContract {
+    IConverterAnchor poolAnchor = IConverterAnchor(<address of pool token/anchor>);
+
+    function addLiquidity(
+        IConverterAnchor poolAnchor,
+        IERC20 reserveToken,
+        uint256 amount
+    ) external payable {
+        liquidityProtection.addLiquidity.value(msg.value)(
+            poolAnchor, 
+            reserveToken, 
+            amount
+        );
+    }
+}
 ```
+
+<!-- TODO: check what the right event is -->
 
 Adding liquidity will result in the emission of an event:
 
@@ -102,9 +134,9 @@ event LiquidityAdded(
 )
 ```
 
-### Step \#3b: Adding Liquidity \(version &gt;= 28\)
+### Step \#3b: Adding Dual-Sided Liquidity \(version &gt;= 28\)
 
-You'll find the newer interface for adding liquidity below. In contrast to older versions, liquidity providers can now specify the exact number of tokens of each underlying reserve they'd like to contribute. Previously, LPs needed to calculate the number of liquidity tokens they expected to be issued. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion. 
+You'll find the newer interface for adding liquidity directly to the pool below. Unlike the method described above, this method involves depositing both assets in a pool directly to the pool. In contrast to older versions, liquidity providers can now specify the exact number of tokens of each underlying reserve they'd like to contribute. Previously, LPs needed to calculate the number of liquidity tokens they expected to be issued. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion. 
 
 Recall that starting with version 28, LPs can directly contribute ETH using the address `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
 
@@ -150,7 +182,7 @@ event LiquidityAdded(
 )
 ```
 
-### Step \#3c: Adding Liquidity \(version &lt; 28\)
+### Step \#3c: Adding Dual-Sided Liquidity \(version &lt; 28\)
 
 When we push a new version, each converter needs to be manually upgraded by its owner. For that reason, many active converters are still using earlier versions of our code.
 
@@ -182,38 +214,54 @@ The process for adding liquidity via Web3 or via smart contract is largely the s
 
 First, you'll need to identify the converter version as outlined in Step \#1 above.
 
-#### Bancor V2 pools
+#### Single-Side Liquidity (Bancor V2.1 pools)
 
-First, copy the `LiquidityPoolV2Converter` ABI into your project. Note that converters of the `LiquidTokenConverter` type are not eligible for liquidity provision \(as outlined in Step \#2\). 
+First, copy the `LiquidityProtection` ABI into your project. Note that converters of the `LiquidTokenConverter` type are not eligible for direct liquidity provision \(as outlined in Step \#2\). 
+
+<!-- This next line isn't right even for LPv2, and I don't know where to find for LiquidityProtection either - the sdk has some ABIs in src/blockchains/ethereum/abis.ts, but not these -->
 
 Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprotocol/contracts-solidity/tree/master/solidity/contracts/converter).
 
 Your Web3 code will look something like this:
 
 ```text
-const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
-const LiquidityPoolV2ConverterAdress = '<your converter address>';
-const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
-    LiquidityPoolV2ConverterABI,
-    LiquidityPoolV2ConverterAdress
+const LiquidityProtectionABI = require('./LiquidityProtectionABI.json');
+const poolAnchorABI = require('./PoolAnchorABI.json');
+const tokenABI = require('./TokenABI.json);
+
+const LiquidityProtectionAddress = '<LiquidityProtection contract address>';
+const LiquidityProtectionContract = new web3.eth.Contract(
+    LiquidityProtectionABI,
+    LiquidityProtectionAddress
 );
 
-const reserveToken = '<token-address>';
-const reserveAmount = <token-amount>;
-const minReturn = 3000000000000000000;
+const poolAnchorAddress = '<address of pool token/anchor>';
+const poolAnchor = new web3.eth.Contract(
+    poolAnchorABI,
+    poolAnchorAddress
+);
 
-await LiquidityPoolV2ConverterContract.methods.addLiquidity(
+const reserveToken = new web3.eth.Contract(
+    tokenABI,
+    <address of token contract>
+);
+
+const reserveAmount = <token-amount>;
+
+await LiquidityProtectionContract.methods.addLiquidity(
+    poolAnchor,
     reserveToken,
-    reserveAmount,
-    minReturn, {
+    amount, {
         value: <ETH value if the reserve token is ETH>
     }
 );
 ```
 
-#### Versions 28 and Above
+#### Dual-Sided Liquidity: Versions 28 and Above
 
 First, copy the `LiquidityPoolV1Converter` ABI into your project. Note that converters of the `LiquidTokenConverter` type are not eligible for liquidity provision \(as outlined in Step \#2\). 
+
+<!-- url is invalid -->
 
 Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent.com/bancorprotocol/contracts/0.6.0/solidity/build/LiquidityPoolConverter.abi).
 
@@ -240,7 +288,9 @@ await LiquidityPoolV1ConverterContract.methods.addLiquidity(
 );
 ```
 
-#### Versions Lower than 28
+#### Dual-Sided Liquidity: Versions Lower than 28
+
+<!-- url is invalid -->
 
 First, copy the `BancorConverter` ABI into your project. Found [**here**](https://raw.githubusercontent.com/bancorprotocol/contracts/master/solidity/build/BancorConverter.abi).
 

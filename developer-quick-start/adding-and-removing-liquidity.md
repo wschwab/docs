@@ -2,7 +2,7 @@
 
 Liquidity providers are the building blocks of the Bancor Network. The Bancor team and the DeFi community at large have developed a number of ways to make liquidity provision as simple as possible.
 
-To add/remove liquidity using a front-end interface, **\*\*\[**here is a step-by-step guide\*\*\]\([https://blog.bancor.network/how-to-stake-liquidity-earn-fees-on-bancor-bff8369274a1](https://blog.bancor.network/how-to-stake-liquidity-earn-fees-on-bancor-bff8369274a1)\).
+To add/remove liquidity using a front-end interface, [here is a step-by-step guide](https://blog.bancor.network/how-to-stake-liquidity-earn-fees-on-bancor-bff8369274a1).
 
 **The remainder of the guide below is for developers** looking to tap into the Bancor liquidity network from their dApps or smart contracts.
 

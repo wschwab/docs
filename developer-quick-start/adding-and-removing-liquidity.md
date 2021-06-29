@@ -52,16 +52,27 @@ As of version 28:
 
 Each contract has a `converterType` function that will return a number, depending on which type of converter it is. Here are the converterType numbers for the different converter types:
 
-- 0 = `LiquidTokenConverter`
-- 1 = `LiquidityPoolV1Converter`
-- 2 = `LiquidityPoolV2Converter`
+- `0` = `LiquidTokenConverter`
+- `1` = `LiquidityPoolV1Converter`
+- `2` = `LiquidityPoolV2Converter`
 
 You'll only be able to add liquidity for converter types 1 & 2.
 
-### Step \#3a: Adding Liquidity Bancor V2
 
+<!-- TODO: added this explainer of the 3abc stuff -->
+### Step 3: Adding Liquidity
+
+Step 3 is broken into parts A, B, and C because adding liquidity . Use the key below to jump to the relevant part of Step 3:
+
+- 3A = Your converter version is 28 or higher, _and_ if your converter type is `2` (for Bancor V2).
+- 3B = Your converter version is 28 or higher, _and_ if your converter type is `1` (for Bancor V1).
+- 3C = Your converter version is 27 or lower.
+
+### Step 3A: Adding Liquidity in Bancor V2
+
+<!-- TODO: fix grammar -->
 {% hint style="warning" %}
-Adding liquidity to bancor V2 pools is using a new interface
+Adding liquidity to Bancor V2 pools is using a new interface
 {% endhint %}
 
 The Bancor V2 `AddLiquidity` function is different from other types in that it requires you to specify only one reserve, as the process of adding liquidity is designed for single token staking. LPs can now specify the exact number of tokens of each underlying reserve they'd like to contribute. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion.

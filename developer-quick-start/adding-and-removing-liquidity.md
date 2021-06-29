@@ -70,9 +70,8 @@ Step 3 is broken into parts A, B, and C because adding liquidity . Use the key b
 
 ### Step 3A: Adding Liquidity in Bancor V2
 
-<!-- TODO: fix grammar -->
 {% hint style="warning" %}
-Adding liquidity to Bancor V2 pools is using a new interface
+Adding liquidity to Bancor V2 pools uses a new interface.
 {% endhint %}
 
 The Bancor V2 `AddLiquidity` function is different from other types in that it requires you to specify only one reserve, as the process of adding liquidity is designed for single token staking. LPs can now specify the exact number of tokens of each underlying reserve they'd like to contribute. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion.

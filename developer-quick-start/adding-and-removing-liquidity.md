@@ -38,10 +38,10 @@ const converter = {
 const version = await bancorSDK.utils.getConverterVersion(converter);
 ```
 
-### Step \#2: Query for Converter Type \(version &gt;= 28\)
+### Step 2: Query for Converter Type \(version &gt;= 28\)
 
 {% hint style="info" %}
-Move on to Step \#3 if your converter version is 27 or lower.
+Move on to Step 3 if your converter version is 27 or lower.
 {% endhint %}
 
 As of version 28:

@@ -9,10 +9,10 @@ To add/remove liquidity using a front-end interface, [here is a step-by-step gui
 ## Liquidity Provision for Developers
 
 {% hint style="info" %}
-Note that you'll need to `approve` all underlying ERC20 transfers before adding liquidity on Bancor.
+Note: you'll need to `approve` all underlying ERC20 transfers before adding liquidity on Bancor.
 {% endhint %}
 
-### Step \#1: Identify the Pool Version
+### Step 1: Identify the Pool Version
 
 Bancor is a fast-moving protocol, while at the same time remaining permissionless and decentralized. When we push an upgrade, the owner of the converter contract must opt in to the new version. For that reason, developers need to check first what type of converter they're interacting with in order to know how to correctly interface with the contract.
 

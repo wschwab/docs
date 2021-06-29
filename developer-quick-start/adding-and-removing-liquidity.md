@@ -50,7 +50,13 @@ As of version 28:
 * The `LiquidityPoolV1Converter` has multiple reserves and is the base contract for converters that manage liquidity pools
 * The `LiquidityPoolV2Converter` has two reserves and is the Bancor v2 base contract
 
-Each contract has a `converterType` function that will return `0` for a `LiquidTokenConverter` , `1` for a `LiquidityPoolV1Converter` , and `2` for a `LiquidityPoolV2Converter`You'll only be able to add liquidity for converter types 1 & 2.
+Each contract has a `converterType` function that will return a number, depending on which type of converter it is. Here are the converterType numbers for the different converter types:
+
+- 0 = `LiquidTokenConverter`
+- 1 = `LiquidityPoolV1Converter`
+- 2 = `LiquidityPoolV2Converter`
+
+You'll only be able to add liquidity for converter types 1 & 2.
 
 ### Step \#3a: Adding Liquidity Bancor V2
 

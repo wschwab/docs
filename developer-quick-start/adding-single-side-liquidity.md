@@ -92,7 +92,7 @@ console.log(`Converter Registry address: ${converterRegistryAddress}`);
 {% endtab %}
 {% endtabs %}
 
-Once you have the Liquidity Protection and Contract Registry addresses, get their ABIs from [Etherscan](https://etherscan.io) by clicking on the "Contract" tab \(underneath the contract source code\). You'll need them to connect with these contracts further on.
+Once you have the Liquidity Protection and Contract Registry addresses, get their ABIs from the documentation here, or alternatively from [Etherscan](https://etherscan.io) by clicking on the "Contract" tab \(underneath the contract source code\). You'll need them to connect with these contracts further on.
 
 #### Step 1b: Getting the Pool Anchor Address
 

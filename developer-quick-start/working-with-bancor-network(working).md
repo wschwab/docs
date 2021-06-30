@@ -73,7 +73,7 @@ const liquidityProtectionAddress = await contractRegistry.addressOf(ethers.utils
 {% endtabs %}
 
 
-The `addressOf` function on the **ContractRegistry** [contract](https://etherscan.io/address/0x52ae12abe5d8bd778bd5397f99ca900624cfadd4#readContract) can receive any of the known contract names as an argument, in bytes32 format. Below is a list of all core contract names, along with some of their bytes32 representations.
+The `addressOf` function on the **ContractRegistry** [contract](https://etherscan.io/address/0x52ae12abe5d8bd778bd5397f99ca900624cfadd4#readContract) can receive any of the known contract names as an argument, in bytes32 format. There is a list of all core contract names at the bottom of this doc, along with some of their bytes32 representations.
 
 ## Option 2: Listen to AddressUpdate Events
 
@@ -82,7 +82,9 @@ Every time an address is changed, the `ContractRegistry` will throw an `AddressU
 ```text
 AddressUpdate (index_topic_1 bytes32 _contractName, address _contractAddress)
 ```
-For example, in order to get the latest contract address of the `BancorNetwork` contract, the event listener/scraper should look for `AddressUpdate` events that indicate new address for `BancorNetwork` \(using its bytes32 representation\).
+For example, in order to get the latest contract address of the `BancorNetwork` contract, the event listener/scraper should look for `AddressUpdate` events that indicate new address for `BancorNetwork` \(using its bytes32 representation\). Building an event scraper is out of the scope for this documentation, here a couple of resources [for](https://ethereum.stackexchange.com/a/87698/27270) [ethers](https://docs.ethers.io/v5/api/providers/provider/#Provider-getLogs) and [for](https://ethereum.stackexchange.com/questions/11866/web3-how-do-i-get-past-events-of-mycontract-myevent/102727#102727) [web3.js](https://web3js.readthedocs.io/en/v1.3.4/web3-eth-contract.html#getpastevents).
+
+You can also build a listener using this pattern in order to detect new addresses when the system is updated. (links: ethers: [docs](https://docs.ethers.io/v5/api/contract/contract/#Contract-on), [StackExchange](https://ethereum.stackexchange.com/a/87669/27270), web3.js: [docs](https://web3js.readthedocs.io/en/v1.3.4/web3-eth-contract.html#contract-events), [StackExchange](https://ethereum.stackexchange.com/questions/11866/web3-how-do-i-get-past-events-of-mycontract-myevent/102727#102727))
 
 ## Contract Names and Addresses
 

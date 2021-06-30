@@ -62,7 +62,6 @@ For example, to get the latest contract address of the `LiquidityProtection` con
 ```javascript
 const liquidityProtectionAddress = await contractRegistry.methods.addressOf(Web3.utils.asciiToHex('LiquidityProtection').call();
 ```
-
 {% endtab %}
 
 {% tab title="Ethers" %}

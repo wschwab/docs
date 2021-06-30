@@ -18,7 +18,7 @@ Bancor is a fast-moving protocol, while at the same time remaining permissionles
 
 We recommend that you use the [Bancor SDK](../sdk/using-the-bancor-sdk.md) to query for the converter version.
 
-```text
+```JavaScript
 const BancorSDK = require('@bancor/sdk').SDK;
 
 const settings = {
@@ -84,7 +84,7 @@ Expected issuance is the expected number of pool tokens you expect to recieve fo
 
 Recall that starting with version 28, LPs can directly contribute ETH using the address `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
 
-```text
+```solidity
 contract IConverter {
     function addLiquidity(
         IERC20Token _reserveToken, 
@@ -110,7 +110,7 @@ contract MyContract {
 
 Adding liquidity will result in the emission of an event:
 
-```text
+```solidity
 event LiquidityAdded(
     address indexed _provider, // provider address
     address indexed _reserve, // token added
@@ -120,13 +120,13 @@ event LiquidityAdded(
 )
 ```
 
-### Step \#3b: Adding Liquidity \(version &gt;= 28\)
+### Step 3B: Adding Liquidity \(version &gt;= 28\)
 
 You'll find the newer interface for adding liquidity below. In contrast to older versions, liquidity providers can now specify the exact number of tokens of each underlying reserve they'd like to contribute. Previously, LPs needed to calculate the number of liquidity tokens they expected to be issued. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion.
 
 Recall that starting with version 28, LPs can directly contribute ETH using the address `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.
 
-```text
+```solidity
 contract IConverter {
     function addLiquidity(
         IERC20Token[] memory _reserveTokens, 
@@ -168,7 +168,7 @@ event LiquidityAdded(
 )
 ```
 
-### Step \#3c: Adding Liquidity \(version &lt; 28\)
+### Step 3C: Adding Liquidity \(version &lt; 28\)
 
 When we push a new version, each converter needs to be manually upgraded by its owner. For that reason, many active converters are still using earlier versions of our code.
 
@@ -176,7 +176,7 @@ The `_amount` value in the **fund** function is the number of liquidity tokens _
 
 Based on the liquidity token `_amount` value, the contract will transfer the requisite amount of tokens of each reserve corresponding to the token figure. This call is made directly on the pool converter contract, unlike conversion which is triggered on the `BancorNetwork` contract.
 
-```text
+```solidity
 contract IConverter {
     function fund(uint256 _amount) external;
 }
@@ -208,7 +208,7 @@ Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprot
 
 Your Web3 code will look something like this:
 
-```text
+```JavaScript
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
 const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
@@ -237,7 +237,7 @@ Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent
 
 Your Web3 code will look something like this:
 
-```text
+```JavaScript
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
 const LiquidityPoolV1ConverterContract = new web3.eth.Contract(
@@ -264,7 +264,7 @@ First, copy the `ConverterBase` ABI into your project. Found [**here**](https://
 
 Your Web3 code will look something like this:
 
-```text
+```JavaScript
 const BancorConverterABI = require('./BancorConverterABI.json')
 const BancorConverterAdress = '<your converter address>';
 const BancorConverterContract = new web3.eth.Contract(

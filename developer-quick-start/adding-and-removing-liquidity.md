@@ -77,7 +77,9 @@ Adding liquidity to Bancor V2 pools uses a new interface.
 The Bancor V2 `AddLiquidity` function is different from other types in that it requires you to specify only one reserve, as the process of adding liquidity is designed for single token staking. LPs can now specify the exact number of tokens of each underlying reserve they'd like to contribute. LPs will still need to roughly estimate expected issuance in order to input the `_minReturn` of liquidity tokens they would accept, but overall the new process leaves less room for error and confusion.
 
 {% hint style="info" %}
-Calculating expected pool tokens:`addLiquidity Amount * (StakedBalance / PoolTokenSupply)`
+Expected issuance is the expected number of pool tokens you expect to recieve for adding some amount of liquidity. This number of pool tokens can be estimated as follows:
+
+`addLiquidity Amount * (StakedBalance / PoolTokenSupply)`
 {% endhint %}
 
 Recall that starting with version 28, LPs can directly contribute ETH using the address `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`.

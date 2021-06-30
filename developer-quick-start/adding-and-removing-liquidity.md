@@ -18,6 +18,8 @@ Bancor is a fast-moving protocol, while at the same time remaining permissionles
 
 We recommend that you use the [Bancor SDK](../sdk/using-the-bancor-sdk.md) to query for the converter version.
 
+<!-- TODO add ethers version -->
+
 ```JavaScript
 const BancorSDK = require('@bancor/sdk').SDK;
 
@@ -158,7 +160,7 @@ Note that while the `addLiquidityToPool` function is **payable**, it works just 
 
 Adding liquidity will result in the emission of an event for each token reserve:
 
-```text
+```solidity
 event LiquidityAdded(
     address indexed _provider, // provider address
     address indexed _reserve, // token added
@@ -208,6 +210,8 @@ Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprot
 
 Your Web3 code will look something like this:
 
+<!-- TODO add ethers version -->
+
 ```JavaScript
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
@@ -237,6 +241,8 @@ Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent
 
 Your Web3 code will look something like this:
 
+<!-- TODO add ethers version -->
+
 ```JavaScript
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
@@ -263,6 +269,8 @@ await LiquidityPoolV1ConverterContract.methods.addLiquidity(
 First, copy the `ConverterBase` ABI into your project. Found [**here**](https://raw.githubusercontent.com/bancorprotocol/docs/master/ethereum-contracts/build/ConverterBase.abi).
 
 Your Web3 code will look something like this:
+
+<!-- TODO add ethers version -->
 
 ```JavaScript
 const BancorConverterABI = require('./BancorConverterABI.json')

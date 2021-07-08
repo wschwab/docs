@@ -221,7 +221,7 @@ First, copy the `LiquidityPoolV2Converter` ABI into your project. Note that conv
 
 Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprotocol/contracts-solidity/tree/master/solidity/contracts/converter).‌
 
-Your Web3 code will look something like this:1
+Your JavaScript code will look something like this:
 
 ```javascript
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
@@ -242,13 +242,27 @@ await LiquidityPoolV2ConverterContract.methods.removeLiquidity(
 );
 ```
 
+{% tabs %}
+{% tab title="Web3.js" %}
+```javascript
+// web3
+```
+{% endtab %}
+
+{% tab title="Ethers" %}
+```javascript
+// TODO ethers version
+```
+{% endtab %}
+{% endtabs %}
+
 #### Versions 28 and Above‌ <a id="versions-28-and-above"></a>
 
 First, copy the `LiquidityPoolV1Converter` ABI into your project. Note that converters of the `LiquidTokenConverter` type are not eligible for liquidity provision \(as outlined in Step \#2\).‌
 
 Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent.com/bancorprotocol/docs/master/ethereum-contracts/build/LiquidityPoolConverter.abi).‌
 
-Your Web3 code will look something like this:
+Your JavaScript code will look something like this:
 
 ```javascript
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
@@ -269,14 +283,30 @@ await LiquidityPoolV1ConverterContract.methods.removeLiquidity(
 );
 ```
 
+{% tabs %}
+{% tab title="Web3.js" %}
+```javascript
+// web3
+```
+{% endtab %}
+
+{% tab title="Ethers" %}
+```javascript
+// TODO ethers version
+```
+{% endtab %}
+{% endtabs %}
+
 ‌
 
 #### Versions Lower than 28 <a id="versions-lower-than-28"></a>
 
 First, copy the `ConverterBase` ABI into your project. Found [**here**](https://raw.githubusercontent.com/bancorprotocol/docs/master/ethereum-contracts/build/ConverterBase.abi).‌
 
-Your Web3 code will look something like this:
+Your JavaScript code will look something like this:
 
+{% tabs %}
+{% tab title="Web3.js" %}
 ```javascript
 const BancorConverterABI = require('./BancorConverterABI.json')
 const BancorConverterAdress = '<your converter address>';
@@ -291,4 +321,11 @@ await BancorConverterContract.methods.fund(
    liquidityTokensToIssue
 );
 ```
+{% endtab %}
 
+{% tab title="Ethers" %}
+```javascript
+// TODO ethers version
+```
+{% endtab %}
+{% endtabs %}

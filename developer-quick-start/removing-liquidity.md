@@ -72,7 +72,7 @@ function liquidationLimit(
 
 #### Step 3A.2 - Check the pool state‌ <a id="step-3-a-2-check-the-pool-state"></a>
 
-When the pool isn’t balanced \(i.e., when there’s an open arbitrage opportunity in the pool\), removing liquidity includes an “**exit fee**” that is designed to prevent the pool from shifting into a temporary reserve balance deficit which may increase the period of illiquidity.1‌
+When the pool isn’t balanced \(i.e., when there’s an open arbitrage opportunity in the pool\), removing liquidity includes an “**exit fee**” that is designed to prevent the pool from shifting into a temporary reserve balance deficit which may increase the period of illiquidity.
 
 It is advised for LPs to wait until the arbitrage opportunity is closed \(which should generally happen relatively quickly\) or close it themselves before removing liquidity.
 

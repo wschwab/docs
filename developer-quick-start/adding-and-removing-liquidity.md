@@ -235,24 +235,25 @@ await LiquidityPoolV2ConverterContract.methods.addLiquidity(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO convert to ethers
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
-const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
+const LiquidityPoolV2ConverterContract = new ethers.Contract(
+    LiquidityPoolV2ConverterAdress,
     LiquidityPoolV2ConverterABI,
-    LiquidityPoolV2ConverterAdress
+    provider
 );
+
+const signer = provider.getSigner();
 
 const reserveToken = '<token-address>';
 const reserveAmount = <token-amount>;
 const minReturn = 3000000000000000000;
 
-await LiquidityPoolV2ConverterContract.methods.addLiquidity(
+await LiquidityPoolV2ConverterContract.connect(signer).addLiquidity(
     reserveToken,
     reserveAmount,
-    minReturn, {
-        value: <ETH value if the reserve token is ETH>
-    }
+    minReturn
+    //, { value: amount } // only use this line if the reserve token is ETH
 );
 ```
 {% endtab %}
@@ -292,24 +293,25 @@ await LiquidityPoolV1ConverterContract.methods.addLiquidity(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO convert to ethers
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
-const LiquidityPoolV1ConverterContract = new web3.eth.Contract(
+const LiquidityPoolV1ConverterContract = new ethers.Contract(
+    LiquidityPoolV1ConverterAdress,
     LiquidityPoolV1ConverterABI,
-    LiquidityPoolV1ConverterAdress
+    provider
 );
+
+const signer = provider.getSigner();
 
 const reserveTokens = ['<token-1-address>', '<token-2-address>'];
 const reserveAmount = [<token-1-amount>, <token-2-amount>];
 const minReturn = 3000000000000000000;
 
-await LiquidityPoolV1ConverterContract.methods.addLiquidity(
+await LiquidityPoolV1ConverterContract.connect(signer).addLiquidity(
     reserveTokens,
     reserveAmounts,
-    minReturn, {
-        value: <ETH value if one of the reserve tokens is ETH>
-    }
+    minReturn
+    //, { value: amount } // only use this line if the reserve token is ETH
 );
 ```
 {% endtab %}
@@ -342,17 +344,19 @@ await BancorConverterContract.methods.fund(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO convert to ethers
 const BancorConverterABI = require('./BancorConverterABI.json')
 const BancorConverterAdress = '<your converter address>';
-const BancorConverterContract = new web3.eth.Contract(
+const BancorConverterContract = new ethers.Contract(
+    BancorConverterAdress,
     BancorConverterABI,
-    BancorConverterAdress
+    provider
 );
+
+const signer = provider.getSigner();
 
 const liquidityTokensToIssue = 3000000000000000000;
 
-await BancorConverterContract.methods.fund(
+await BancorConverterContract.connect(signer).fund(
    liquidityTokensToIssue
 );
 ```

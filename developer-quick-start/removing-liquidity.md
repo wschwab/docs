@@ -247,19 +247,21 @@ await LiquidityPoolV2ConverterContract.methods.removeLiquidity(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO ethers version
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
-const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
+const LiquidityPoolV2ConverterContract = new ethers.Contract(
+    LiquidityPoolV2ConverterAdress,
     LiquidityPoolV2ConverterABI,
-    LiquidityPoolV2ConverterAdress
+    provider
 );
+
+const signer = provider.getSigner();
 
 const poolToken = '<token-address>';
 const amount = <token-amount>;
 const minReturn = 3000000000000000000;
 
-await LiquidityPoolV2ConverterContract.methods.removeLiquidity(
+await LiquidityPoolV2ConverterContract.connect(signer).removeLiquidity(
     poolToken,
     amount,
     minReturn
@@ -300,19 +302,21 @@ await LiquidityPoolV1ConverterContract.methods.removeLiquidity(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO ethers version
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
-const LiquidityPoolV1ConverterContract = new web3.eth.Contract(
+const LiquidityPoolV1ConverterContract = new ethers.Contract(
+    LiquidityPoolV1ConverterAdress,
     LiquidityPoolV1ConverterABI,
-    LiquidityPoolV1ConverterAdress
+    provider
 );
+
+const signer = provider.getSigner();
 
 const amount = <pool-token-amount>;
 const reserveTokens = ['<token-1-address>', '<token-2-address>'];
 const minReturn = 3000000000000000000;
 
-await LiquidityPoolV1ConverterContract.methods.removeLiquidity(
+await LiquidityPoolV1ConverterContract.connect(signer).removeLiquidity(
     amount,
     reserveTokens,
     minReturn
@@ -349,7 +353,21 @@ await BancorConverterContract.methods.fund(
 
 {% tab title="Ethers" %}
 ```javascript
-// TODO ethers version
+const BancorConverterABI = require('./BancorConverterABI.json')
+const BancorConverterAdress = '<your converter address>';
+const BancorConverterContract = new ethers.Contract(
+    BancorConverterAdress,
+    BancorConverterABI,
+    provider
+);
+
+const signer = provider.getSigner();
+
+const liquidityTokensToIssue = 3000000000000000000;
+
+await BancorConverterContract.connect(signer).fund(
+   liquidityTokensToIssue
+);
 ```
 {% endtab %}
 {% endtabs %}

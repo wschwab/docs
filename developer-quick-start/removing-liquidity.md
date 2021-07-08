@@ -8,11 +8,11 @@ To add/remove liquidity using a front-end interface, [here is a step-by-step gui
 
 ## Liquidity Provision for Developers <a id="liquidity-provision-for-developers"></a>
 
-### Step \#1: Identify the Pool Version <a id="step-1-identify-the-pool-version"></a>
+### Step 1: Identify the Pool Version <a id="step-1-identify-the-pool-version"></a>
 
 Bancor is a fast-moving protocol, while at the same time remaining permissionless and decentralized. When we push an upgrade, the owner of the converter contract must actively opt in to the new version. For that reason, developers need to check first what type of converter they're interacting with in order to know how to correctly interface with the contract.‌
 
-We recommend that you use the Bancor SDK to query for the converter version.
+We recommend that you use the [Bancor SDK](../sdk/using-the-bancor-sdk.md) to query for the converter version.
 
 ```text
 const BancorSDK = require('@bancor/sdk').SDK;​
@@ -34,7 +34,7 @@ const converter = {
 const version = await bancorSDK.utils.getConverterVersion(converter);
 ```
 
-### Step \#2: Query for Converter Type \(version &gt;= 28\) <a id="step-2-query-for-converter-type-version-greater-than-28"></a>
+### Step 2: Query for Converter Type \(version &gt;= 28\) <a id="step-2-query-for-converter-type-version-greater-than-28"></a>
 
 {% hint style="info" %}
 Move on to Step \#3 if your converter version is 27 or lower.‌
@@ -48,7 +48,7 @@ As of version 28:‌
 
 Each contract has a `converterType` function that will return `0` for a `LiquidTokenConverter` , `1` for a `LiquidityPoolV1Converter` , and `2` for a `LiquidityPoolV2Converter`. You'll only be able to add liquidity for converter types 1 & 2.‌
 
-### Step \#3a: Removing Liquidity from a V2 Pool <a id="step-3-a-removing-liquidity-from-a-v2-pool"></a>
+### Step 3A: Removing Liquidity from a V2 Pool <a id="step-3-a-removing-liquidity-from-a-v2-pool"></a>
 
 {% hint style="warning" %}
 Bancor V2 pools use a new interface for removing liquidity‌
@@ -60,7 +60,7 @@ By design, Bancor V2 pools record the initial staked amount, registering this va
 
 Before calling `removeLiquidity` function, developers are advised to follow these steps:‌
 
-#### Step \#3a.1 - Check the available pool balance‌ <a id="step-3-a-1-check-the-available-pool-balance"></a>
+#### Step 3A.1 - Check the available pool balance‌ <a id="step-3-a-1-check-the-available-pool-balance"></a>
 
 Bancor V2 applies a variety of incentives in order to maintain the full staked token balance in reserve. However, there might be interim periods where LPs will not be able to fully liquidate their stake. In these cases, LPs will need to wait until the balance is restored. The function below returns the maximum amount available for liquidation:
 
@@ -70,7 +70,7 @@ function liquidationLimit(
 ) public view returns (uint256);​
 ```
 
-#### Step \#3a.2 - Check the pool state‌ <a id="step-3-a-2-check-the-pool-state"></a>
+#### Step 3A.2 - Check the pool state‌ <a id="step-3-a-2-check-the-pool-state"></a>
 
 When the pool isn’t balanced \(i.e., when there’s an open arbitrage opportunity in the pool\), removing liquidity includes an “**exit fee**” that is designed to prevent the pool from shifting into a temporary reserve balance deficit which may increase the period of illiquidity.1‌
 
@@ -96,7 +96,7 @@ XYZ current balance amp =
 XYZ staked balance amp - (XYZ staked balance - XYZ current balance)`
 {% endhint %}
 
-#### Step \#3a.3 - Remove liquidity <a id="step-3-a-3-remove-liquidity"></a>
+#### Step 3A.3 - Remove liquidity <a id="step-3-a-3-remove-liquidity"></a>
 
 Once the liquidation amount available is known and the pool is confirmed to be balanced, LPs can call the `removeLiquidity` function:
 
@@ -143,7 +143,7 @@ event LiquidityRemoved(
     )
 ```
 
-### Step \#3b: Removing Liquidity \(version &gt;= 28\) <a id="step-3-b-removing-liquidity-version-greater-than-28"></a>
+### Step 3B: Removing Liquidity \(version &gt;= 28\) <a id="step-3-b-removing-liquidity-version-greater-than-28"></a>
 
 You'll find the newer interface for removing liquidity below.1
 
@@ -184,7 +184,7 @@ event LiquidityRemoved(
 )
 ```
 
-### Step \#3c: Removing Liquidity \(version &lt; 28\) <a id="step-3-c-removing-liquidity-version-less-than-28"></a>
+### Step 3C: Removing Liquidity \(version &lt; 28\) <a id="step-3-c-removing-liquidity-version-less-than-28"></a>
 
 When we push a new version, each converter needs to be manually upgraded by its owner. For that reason, many active converters are still using earlier versions of our code.‌
 
@@ -291,7 +291,4 @@ await BancorConverterContract.methods.fund(
    liquidityTokensToIssue
 );
 ```
-
-**​**[    
-](https://app.gitbook.com/@bancor-network/s/bancor-network/~/drafts/-MAQrbUpPFLOEJt0lXNj/developer-quick-start/adding-and-removing-liquidity/@archived)
 

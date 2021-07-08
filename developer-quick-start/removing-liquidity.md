@@ -223,6 +223,8 @@ Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprot
 
 Your JavaScript code will look something like this:
 
+{% tabs %}
+{% tab title="Web3.js" %}
 ```javascript
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
@@ -241,17 +243,27 @@ await LiquidityPoolV2ConverterContract.methods.removeLiquidity(
     minReturn
 );
 ```
-
-{% tabs %}
-{% tab title="Web3.js" %}
-```javascript
-// web3
-```
 {% endtab %}
 
 {% tab title="Ethers" %}
 ```javascript
 // TODO ethers version
+const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
+const LiquidityPoolV2ConverterAdress = '<your converter address>';
+const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
+    LiquidityPoolV2ConverterABI,
+    LiquidityPoolV2ConverterAdress
+);
+
+const poolToken = '<token-address>';
+const amount = <token-amount>;
+const minReturn = 3000000000000000000;
+
+await LiquidityPoolV2ConverterContract.methods.removeLiquidity(
+    poolToken,
+    amount,
+    minReturn
+);
 ```
 {% endtab %}
 {% endtabs %}
@@ -264,6 +276,8 @@ Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent
 
 Your JavaScript code will look something like this:
 
+{% tabs %}
+{% tab title="Web3.js" %}
 ```javascript
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
@@ -282,17 +296,27 @@ await LiquidityPoolV1ConverterContract.methods.removeLiquidity(
     minReturn
 );
 ```
-
-{% tabs %}
-{% tab title="Web3.js" %}
-```javascript
-// web3
-```
 {% endtab %}
 
 {% tab title="Ethers" %}
 ```javascript
 // TODO ethers version
+const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
+const LiquidityPoolV1ConverterAdress = '<your converter address>';
+const LiquidityPoolV1ConverterContract = new web3.eth.Contract(
+    LiquidityPoolV1ConverterABI,
+    LiquidityPoolV1ConverterAdress
+);
+
+const amount = <pool-token-amount>;
+const reserveTokens = ['<token-1-address>', '<token-2-address>'];
+const minReturn = 3000000000000000000;
+
+await LiquidityPoolV1ConverterContract.methods.removeLiquidity(
+    amount,
+    reserveTokens,
+    minReturn
+);
 ```
 {% endtab %}
 {% endtabs %}

@@ -14,7 +14,7 @@ Bancor is a fast-moving protocol, while at the same time remaining permissionles
 
 We recommend that you use the [Bancor SDK](../sdk/using-the-bancor-sdk.md) to query for the converter version.
 
-```text
+```javascript
 const BancorSDK = require('@bancor/sdk').SDK;​
 
 const settings = {    
@@ -64,7 +64,7 @@ Before calling `removeLiquidity` function, developers are advised to follow thes
 
 Bancor V2 applies a variety of incentives in order to maintain the full staked token balance in reserve. However, there might be interim periods where LPs will not be able to fully liquidate their stake. In these cases, LPs will need to wait until the balance is restored. The function below returns the maximum amount available for liquidation:
 
-```text
+```solidity
 function liquidationLimit(    
     address poolToken
 ) public view returns (uint256);​
@@ -76,7 +76,7 @@ When the pool isn’t balanced \(i.e., when there’s an open arbitrage opportun
 
 It is advised for LPs to wait until the arbitrage opportunity is closed \(which should generally happen relatively quickly\) or close it themselves before removing liquidity.
 
-```text
+```solidity
 function removeLiquidityReturn(    
     address poolToken,     
     uint256 amount
@@ -100,7 +100,7 @@ XYZ staked balance amp - (XYZ staked balance - XYZ current balance)`
 
 Once the liquidation amount available is known and the pool is confirmed to be balanced, LPs can call the `removeLiquidity` function:
 
-```text
+```solidity
 contract IConverter {    
     function removeLiquidity(        
         ISmartToken poolToken         
@@ -133,7 +133,7 @@ contract MyContract {
 
 Removing liquidity will result in the emission of an event:
 
-```text
+```solidity
 event LiquidityRemoved(    
     address indexed provider, // provider address    
     address indexed reserve, // token added    
@@ -147,7 +147,7 @@ event LiquidityRemoved(
 
 You'll find the newer interface for removing liquidity below.1
 
-```text
+```solidity
 contract IConverter {
     function removeLiquidity(
         uint256 amount,
@@ -174,7 +174,7 @@ contract MyContract {
 
 Removing liquidity will result in the emission of an event for each token reserve:
 
-```text
+```solidity
 event LiquidityRemoved(
     address indexed provider, // provider address
     address indexed reserve, // token removed
@@ -192,7 +192,7 @@ The `amount` value in the **liquidate** functions is the number of liquidity tok
 
 Based on the liquidity token `amount` value, the contract will transfer the requisite amount of tokens of each reserve corresponding to the token figure. This call is made directly on the pool converter contract, unlike conversion which is triggered on the `BancorNetwork` contract.
 
-```text
+```solidity
 contract IConverter {
     function liquidate(uint256 amount) external;
 }​
@@ -223,7 +223,7 @@ Find the `LiquidityPoolV2Converter` ABI [**here**](https://github.com/bancorprot
 
 Your Web3 code will look something like this:1
 
-```text
+```javascript
 const LiquidityPoolV2ConverterABI = require('./LiquidityPoolV2ConverterABI.json')
 const LiquidityPoolV2ConverterAdress = '<your converter address>';
 const LiquidityPoolV2ConverterContract = new web3.eth.Contract(
@@ -250,7 +250,7 @@ Find the `LiquidityPoolV1Converter` ABI [**here**](https://raw.githubusercontent
 
 Your Web3 code will look something like this:
 
-```text
+```javascript
 const LiquidityPoolV1ConverterABI = require('./LiquidityPoolV1ConverterABI.json')
 const LiquidityPoolV1ConverterAdress = '<your converter address>';
 const LiquidityPoolV1ConverterContract = new web3.eth.Contract(
@@ -277,7 +277,7 @@ First, copy the `ConverterBase` ABI into your project. Found [**here**](https://
 
 Your Web3 code will look something like this:
 
-```text
+```javascript
 const BancorConverterABI = require('./BancorConverterABI.json')
 const BancorConverterAdress = '<your converter address>';
 const BancorConverterContract = new web3.eth.Contract(
